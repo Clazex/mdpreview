@@ -13,13 +13,6 @@
 ~~Strikethrough~~
 
 
-Word^Up^
-
-Word~Down~
-
-==Highlight==
-
-
 ```c++
 int main() {
 	// Some Code
