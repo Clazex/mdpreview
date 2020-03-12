@@ -6,7 +6,22 @@ var app = new Vue({
         compiled: "",
         showSource: false,
         shouldSanitize: true,
-        statusCode: 200
+        statusCode: 200,
+        langs: [
+            {
+                displayName: "English",
+                url: ""
+            },
+            {
+                displayName: "简体中文",
+                url: "zh-cn"
+            },
+            {
+                displayName: "繁體中文",
+                url: "zh-tw"
+            }
+        ],
+        langChoice: ""
     },
     methods: {
         loadMd: function () {
@@ -31,6 +46,15 @@ var app = new Vue({
             } else {
                 app.compiled = markedProcessed;
             }
+        },
+        changeLang: function () {
+            for (var i = 0; i < this.langs.length; i++) {
+                if (this.langs[i].displayName === this.langChoice) {
+                    window.location.href = this.langs[i].url;
+                    return;
+                }
+            }
+            alert("Unknown Language!");
         }
     }
 });

@@ -17,6 +17,12 @@
     <div id="app">
         <div id="control">
             <p>
+                Language: 
+                <select name="langs" @change="changeLang" v-model="langChoice">
+                    <option v-for="lang in langs">{{lang.displayName}}</option>
+                </select>
+            </p>
+            <p>
                 Markdown File URL:
                 <input type="string" v-model="urlInput" />
                 <button @click="loadMd">Load</button>
