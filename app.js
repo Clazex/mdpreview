@@ -35,7 +35,7 @@ var app = new Vue({
             }
         },
         loadSource: function () {
-            if (app.showSource) {
+            if (app.showSource && app.source.length > 0) {
                 app.md = marked("```markdown\n" + app.source + "\n```");
             } else {
                 app.md = "";
