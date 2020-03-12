@@ -10,7 +10,7 @@
         src="https://cdn.jsdelivr.net/combine/npm/vue@2.6.11,npm/marked@0.8.0/marked.min.js,npm/superagent@5.2.2,npm/dompurify@2.0.8/dist/purify.min.js">
     </script>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@1/style.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/combing/gh/Sciencmine/mdpreview@1/style.min.css,gh/Sciencmine/mdpreview@1/v-cloak.min.css">
 </head>
 
 <body>
@@ -29,14 +29,14 @@
             </p>
             <hr />
         </div>
-        <div id="display" v-if="statusCode === 200">
-            <div v-if="showSource">
-                <div v-if='md !== ""' v-html="md" id="source"></div>
-                <hr v-if='source !== ""' />
+        <div id="display" v-if="statusCode === 200" v-cloak>
+            <div v-if="showSource && md.length > 0">
+                <div v-html="md" id="source"></div>
+                <hr />
             </div>
-            <div>
+            <div v-if="compiled.length > 0">
                 <div v-html="compiled"></div>
-                <hr v-if='compiled !== ""' />
+                <hr />
             </div>
         </div>
         <div id='credit'>
