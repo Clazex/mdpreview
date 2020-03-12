@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <div id="app">
+    <div id="app" v-cloak>
         <div id="control">
             <p>
                 Language: 
@@ -35,7 +35,7 @@
             </p>
             <hr />
         </div>
-        <div id="display" v-if="statusCode === 200" v-cloak>
+        <div id="display" v-if="statusCode === 200">
             <div v-if="showSource && source.length > 0">
                 <div v-html='app.source.replace(/\n/g, "<br>")' id="source"></div>
                 <hr />
