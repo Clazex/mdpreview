@@ -10,7 +10,7 @@ var app = new Vue({
         langs: [
             {
                 displayName: "English",
-                url: ""
+                url: "./"
             },
             {
                 displayName: "简体中文",
