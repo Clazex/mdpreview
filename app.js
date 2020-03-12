@@ -11,8 +11,17 @@ var app = new Vue({
     },
     methods: {
         loadMd: function () {
-            superagent.get(app.urlInput).end(function (err, res) {
-                app.statusCode = res.statusCode, app.source = res.text;
+            superagent.get(app.urlInput).end(function (error, response) {
+                if (error !== null) {
+                    alert(error);
+                    return;
+                }
+
+				if (response.statusCode !== 200) {
+                    alert("Error " + response.statusCode + "\n\n" + response.text);
+                }
+
+                app.statusCode = response.statusCode, app.source = response.text;
                 app.loadSource();
                 app.compile();
             });
