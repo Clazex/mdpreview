@@ -1,7 +1,7 @@
 var app = new Vue({
     el: '#app',
     data: {
-        urlInput: "",
+        urlInput: "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/example.md",
         source: "",
         md: "",
         compiled: "",
