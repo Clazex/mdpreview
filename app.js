@@ -55,6 +55,49 @@ var app = new Vue({
                 }
             }
             alert("Unknown Language!");
+        },
+        loadQuery: function () {
+            if (window.location.search.length > 1) {
+                var searchList = window.location.search;
+                searchList[0] = "&";
+
+                var i = 0, j;
+                for (var parseFinished = false; !parseFinished && i >= 0;) {
+                    j = searchList.indexOf("=", i);
+                    if (j === -1) {
+                        alert("Error parsing queries!");
+                        break;
+                    }
+
+                    var key = searchList.substr(i + 1, j - i - 1);
+
+                    i = searchList.indexOf("&", j);
+                    if (i === -1) {
+                        parseFinished = true;
+                        i = searchList.length;
+                    }
+                    
+                    switch (key) {
+                        case "source":
+                            app.showSource = (searchList.substr(j + 1, i - j - 1) === "true");
+                            break;
+                        case "sanitize":
+                            app.shouldSanitize = (searchList.substr(j + 1, i - j - 1) === "true");
+                            break;
+                        case "url":
+                            i = -2;
+                            break;
+                        default:
+                            alert("Unknown query key: " + key);
+                            return;
+                    }
+                }
+
+                if (i === -2) {
+                    this.urlInput = unescape(searchList.substr(j + 1));
+                    this.loadMd();
+                }
+            }
         }
     }
 });

@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/combine/gh/Sciencmine/mdpreview@latest/style.min.css,gh/Sciencmine/mdpreview@latest/v-cloak.min.css">
 </head>
 
-<body>
+<body onload="app.loadQuery()">
     <div id="app" v-cloak>
         <div id="control">
             <p>
@@ -28,12 +28,12 @@
             <p>
                 Markdown File URL:
                 <input type="string" v-model="urlInput" />
-                <button @click="loadMd">Load</button>
+                <button @click="loadMd()">Load</button>
             </p>
             <p>
-                <input type="checkbox" @click="showSource = !showSource" />
+                <input type="checkbox" v-model="showSource" />
                 Show Source
-                <input type="checkbox" checked=true @click="shouldSanitize = !shouldSanitize, compile()" />
+                <input type="checkbox" v-model="shouldSanitize" @click="compile()" />
                 Should Sanitize
             </p>
             <hr />
