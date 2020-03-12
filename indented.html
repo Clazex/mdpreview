@@ -22,7 +22,7 @@
                 <button @click="loadMd">Load</button>
             </p>
             <p>
-                <input type="checkbox" @click="showSource = !showSource, loadSource()" />
+                <input type="checkbox" @click="showSource = !showSource" />
                 Show Source
                 <input type="checkbox" checked=true @click="shouldSanitize = !shouldSanitize, compile()" />
                 Should Sanitize
@@ -30,8 +30,8 @@
             <hr />
         </div>
         <div id="display" v-if="statusCode === 200" v-cloak>
-            <div v-if="showSource && md.length > 0">
-                <div v-html="md" id="source"></div>
+            <div v-if="showSource && source.length > 0">
+                <div v-html='app.source.replace(/\n/g, "<br>")' id="source"></div>
                 <hr />
             </div>
             <div v-if="compiled.length > 0">

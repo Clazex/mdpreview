@@ -3,7 +3,6 @@ var app = new Vue({
     data: {
         urlInput: "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@1/example.md",
         source: "",
-        md: "",
         compiled: "",
         showSource: false,
         shouldSanitize: true,
@@ -22,7 +21,6 @@ var app = new Vue({
                 }
 
                 app.statusCode = response.statusCode, app.source = response.text;
-                app.loadSource();
                 app.compile();
             });
         },
@@ -32,13 +30,6 @@ var app = new Vue({
                 app.compiled = DOMPurify.sanitize(markedProcessed);
             } else {
                 app.compiled = markedProcessed;
-            }
-        },
-        loadSource: function () {
-            if (app.showSource && app.source.length > 0) {
-                app.md = marked("```markdown\n" + app.source + "\n```");
-            } else {
-                app.md = "";
             }
         }
     }
