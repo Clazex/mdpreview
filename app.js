@@ -117,18 +117,20 @@ var app = new Vue({
                         i = searchList.length;
                     }
 
+                    console.log(key);
+                    console.log(searchList.substr(j + 1, i - j - 1));
                     switch (key) {
                         case "source":
-                            app.options.showSource = string2bool(searchList.substr(j + 1, i - j - 1));
+                            app.options.showSource = app.string2bool(searchList.substr(j + 1, i - j - 1));
                             break;
                         case "sanitize":
-                            app.options.shouldSanitize = string2bool(searchList.substr(j + 1, i - j - 1));
+                            app.options.shouldSanitize = app.string2bool(searchList.substr(j + 1, i - j - 1));
                             break;
                         case "control":
-                            app.options.showControl = string2bool(searchList.substr(j + 1, i - j - 1));
+                            app.options.showControl = app.string2bool(searchList.substr(j + 1, i - j - 1));
                             break;
                         case "credit":
-                            app.options.showCredit = string2bool(searchList.substr(j + 1, i - j - 1));
+                            app.options.showCredit = app.string2bool(searchList.substr(j + 1, i - j - 1));
                             break;
                         case "lang":
                             var langId = searchList.substr(j + 1, i - j - 1);
@@ -160,7 +162,7 @@ var app = new Vue({
                 }
             }
         },
-        loadi18n: function () {
+        loadI18n: function () {
             for (var i = 0; i < app.langs.length; i++) {
                 if (app.langs[i].displayName === app.langChoice) {
                     app.i18n = app.langs[i].content;
@@ -172,15 +174,9 @@ var app = new Vue({
             alert(app.i18n.langUnknown);
         },
         init: function () {
-            for (var i = 0; i < app.langs.length; i++) {
-                if (app.langs[i].displayName === app.langChoice) {
-                    app.i18n = app.langs[i].content;
-                    break;
-                }
-            }
-
+            app.loadI18n();
             app.loadQuery();
-            app.loadi18n();
+            app.loadI18n();
         }
     }
 });
