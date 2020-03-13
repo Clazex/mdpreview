@@ -7,8 +7,6 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
 
-    <title>Markdown Preview</title>
-
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/combine/npm/vue@2.6.11,npm/marked@0.8.0/marked.min.js,npm/superagent@5.2.2,npm/dompurify@2.0.8/dist/purify.min.js">
     </script>
@@ -17,25 +15,25 @@
 	<link rel="stylesheet" type="text/css" href="./v-cloak.min.css">
 </head>
 
-<body onload="app.loadQuery()">
+<body onload="app.init()">
     <div id="app" v-cloak>
         <div id="control" v-if="options.showControl">
             <p>
-                Language: 
-                <select name="langs" @change="changeLang" v-model="langChoice">
-                    <option v-for="lang in langs">{{lang.displayName}}</option>
+                {{ i18n.language }}
+                <select name="langs" @change="loadi18n()" v-model="langChoice">
+                    <option v-for="lang in langs">{{ lang.displayName }}</option>
                 </select>
             </p>
             <p>
-                Markdown File URL:
+                {{ i18n.mdUrl }}
                 <input type="string" v-model="urlInput" />
-                <button @click="loadMd()">Load</button>
+                <button @click="loadMd()">{{ i18n.load }}</button>
             </p>
             <p>
                 <input type="checkbox" v-model="options.showSource" />
-                Show Source
+                {{ i18n.source }}
                 <input type="checkbox" v-model="options.shouldSanitize" @click="compile()" />
-                Should Sanitize
+                {{ i18n.sanitize }}
             </p>
             <hr />
         </div>
@@ -50,7 +48,7 @@
             </div>
         </div>
         <div id="credit" v-if="options.showCredit">
-            Powered By:
+            {{ i18n.poweredBy }}
             <a href="https://vuejs.org">Vue</a>
             <a href="https://marked.js.org">Marked</a>
             <a href="https://cure53.de/purify">DOMPurify</a>
@@ -59,7 +57,7 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="./app.min.js"></script>
+    <script type="text/javascript" src="./app.js"></script>
 </body>
 
 </html>

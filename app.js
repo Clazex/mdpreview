@@ -4,39 +4,82 @@ var app = new Vue({
         urlInput: "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@latest/example.md",
         source: "",
         compiled: "",
+        statusCode: 200,
+        langChoice: "English",
 		options: {
 			showSource: false,
 			shouldSanitize: true,
 			showControl: true,
 			showCredit: true
 		},
-		statusCode: 200,
+        i18n: {},
         langs: [
             {
                 displayName: "English",
-                url: "./"
+                id: "en_us",
+                content: {
+                    title: "Markdown Preview",
+                    language: "Language: ",
+                    mdUrl: "Markdown File URL: ",
+                    load: "Load",
+                    source: "Show Source",
+                    sanitize: "Sanitize HTML",
+                    poweredBy: "Powered By: ",
+                    connectionFailure: "Connection failed",
+                    connectionError: "Error ",
+                    langUnknown: "Unknown language!",
+                    queryParseError: "Error when parsing queries!",
+                    queryUnknownKey: "Unknown query key: "
+                }
             },
             {
                 displayName: "简体中文",
-                url: "zh-cn"
+                id: "zh_cn",
+                content: {
+                    title: "Markdown 预览",
+                    language: "语言：",
+                    mdUrl: "Markdown 文件 URL：",
+                    load: "加载",
+                    source: "显示源代码",
+                    sanitize: "净化 HTML",
+                    poweredBy: "技术支持：",
+                    connectionFailure: "连接失败",
+                    connectionError: "错误 ",
+                    langUnknown: "未知语言！",
+                    queryParseError: "解析请求时出错！",
+                    queryUnknownKey: "未知请求键值："
+                }
             },
             {
                 displayName: "繁體中文",
-                url: "zh-tw"
+                id: "zh_tw",
+                content: {
+                    title: "Markdown 預覽",
+                    language: "語言：",
+                    mdUrl: "Markdown 檔案 URL：",
+                    load: "加載",
+                    source: "顯示源代碼",
+                    sanitize: "淨化 HTML",
+                    poweredBy: "技術支持：",
+                    connectionFailure: "連接失敗",
+                    connectionError: "錯誤 ",
+                    langUnknown: "未知語言！",
+                    queryParseError: "解析請求時出錯！",
+                    queryUnknownKey: "未知請求鍵值："
+                }
             }
-        ],
-        langChoice: ""
+        ]
     },
     methods: {
         loadMd: function () {
             superagent.get(app.urlInput).end(function (error, response) {
                 if (error !== null) {
-                    alert(error);
+                    alert(app.i18n.connectionFailure + "\n" + error);
                     return;
                 }
 
 				if (response.statusCode !== 200) {
-                    alert("Error " + response.statusCode + "\n\n" + response.text);
+                    alert(app.i18n.connectionError + response.statusCode + "\n\n" + response.text);
                 }
 
                 app.statusCode = response.statusCode, app.source = response.text;
@@ -51,14 +94,8 @@ var app = new Vue({
                 app.compiled = markedProcessed;
             }
         },
-        changeLang: function () {
-            for (var i = 0; i < this.langs.length; i++) {
-                if (this.langs[i].displayName === this.langChoice) {
-                    window.location.href = this.langs[i].url;
-                    return;
-                }
-            }
-            alert("Unknown Language!");
+        string2bool: function (value) {
+            return value === "true" || value === "1";
         },
         loadQuery: function () {
             if (window.location.search.length > 1) {
@@ -69,12 +106,11 @@ var app = new Vue({
                 for (var parseFinished = false; !parseFinished && i >= 0;) {
                     j = searchList.indexOf("=", i);
                     if (j === -1) {
-                        alert("Error parsing queries!");
+                        alert(app.i18n.queryParseError);
                         break;
                     }
 
                     var key = searchList.substr(i + 1, j - i - 1);
-					console.log("key:" + key);
 
                     i = searchList.indexOf("&", j);
                     if (i === -1) {
@@ -84,22 +120,37 @@ var app = new Vue({
                     
                     switch (key) {
                         case "source":
-                            app.options.showSource = (searchList.substr(j + 1, i - j - 1) === "true");
+                            app.options.showSource = string2bool(searchList.substr(j + 1, i - j - 1));
                             break;
                         case "sanitize":
-                            app.options.shouldSanitize = (searchList.substr(j + 1, i - j - 1) === "true");
+                            app.options.shouldSanitize = string2bool(searchList.substr(j + 1, i - j - 1));
                             break;
 						case "control":
-						    app.options.showControl = (searchList.substr(j + 1, i - j - 1) === "true");
+						    app.options.showControl = string2bool(searchList.substr(j + 1, i - j - 1));
 							break;
 						case "credit":
-							app.options.showCredit = (searchList.substr(j + 1, i - j - 1) === "true");
-							break;
+							app.options.showCredit = string2bool(searchList.substr(j + 1, i - j - 1));
+                            break;
+                        case "lang":
+                            var langId = searchList.substr(j + 1, i - j - 1);
+                            var i = 0;
+
+                            for (; i < app.langs.length; i++) {
+                                if (app.langs[i].id === langId) {
+                                    app.langChoice = app.langs[i].displayName;
+                                    break;
+                                }
+                            }
+
+                            if (i === app.langs.length) {
+                                alert(app.i18n.langUnknown);
+                            }
+                            break;
                         case "url":
                             i = "hasUrl";
                             break;
                         default:
-                            alert("Unknown query key: " + key);
+                            alert(app.i18n.queryUnknownKey + key);
                             return;
                     }
                 }
@@ -109,6 +160,28 @@ var app = new Vue({
                     app.loadMd();
                 }
             }
+        },
+        loadi18n: function () {
+            for (var i = 0; i < app.langs.length; i++) {
+                if (app.langs[i].displayName === app.langChoice) {
+                    app.i18n = app.langs[i].content;
+                    document.title = app.i18n.title;
+                    return;
+                }
+            }
+            
+            alert(app.i18n.langUnknown);
+        },
+        init: function () {
+            for (i in app.langs) {
+                if (i.displayName === app.langChoice) {
+                    app.i18n = i.content;
+                    break;
+                }
+            }
+
+            app.loadQuery();
+            app.loadi18n();
         }
     }
 });
