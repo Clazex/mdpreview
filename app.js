@@ -117,8 +117,6 @@ var app = new Vue({
                         i = searchList.length;
                     }
 
-                    console.log(key);
-                    console.log(searchList.substr(j + 1, i - j - 1));
                     switch (key) {
                         case "source":
                             app.options.showSource = app.string2bool(searchList.substr(j + 1, i - j - 1));
