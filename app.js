@@ -1,7 +1,7 @@
 var app = new Vue({
-    el: '#app',
+    el: "#app",
     data: {
-        urlInput: "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@latest/example.md",
+        urlInput: "",
         source: "",
         compiled: "",
         statusCode: 200,
@@ -175,6 +175,7 @@ var app = new Vue({
         },
         init: function () {
             app.loadI18n();
+			app.urlInput = "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@latest/example.md";
             app.loadQuery();
             app.loadI18n();
         }

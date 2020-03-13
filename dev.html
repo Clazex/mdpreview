@@ -21,7 +21,7 @@
         <div id="control" v-if="options.showControl">
             <p>
                 {{ i18n.language }}
-                <select name="langs" @change="loadi18n()" v-model="langChoice">
+                <select name="langs" @change="loadI18n()" v-model="langChoice">
                     <option v-for="lang in langs">{{ lang.displayName }}</option>
                 </select>
             </p>
