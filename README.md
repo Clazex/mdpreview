@@ -14,4 +14,5 @@ Powered By:
 [Marked](https://marked.js.org)
 [DOMPurify](https://cure53.de/purify)
 [Superagent](https://visionmedia.github.io/superagent/)
+[Highlight.js](https://highlightjs.org)
 [Typora](https://typora.io)
