@@ -6,15 +6,14 @@ var app = new Vue({
         compiled: "",
         statusCode: 200,
         langChoice: "English",
-		options: {
-			showSource: false,
-			shouldSanitize: true,
-			showControl: true,
-			showCredit: true
-		},
+        options: {
+            showSource: false,
+            shouldSanitize: true,
+            showControl: true,
+            showCredit: true
+        },
         i18n: {},
-        langs: [
-            {
+        langs: [{
                 displayName: "English",
                 id: "en_us",
                 content: {
@@ -78,7 +77,7 @@ var app = new Vue({
                     return;
                 }
 
-				if (response.statusCode !== 200) {
+                if (response.statusCode !== 200) {
                     alert(app.i18n.connectionError + response.statusCode + "\n\n" + response.text);
                 }
 
@@ -101,7 +100,8 @@ var app = new Vue({
             if (window.location.search.length > 1) {
                 var searchList = "&" + window.location.search.substr(1);
 
-                var i = 0, j;
+                var i = 0,
+                    j;
                 for (var parseFinished = false; !parseFinished && i >= 0;) {
                     j = searchList.indexOf("=", i);
                     if (j === -1) {
@@ -116,7 +116,7 @@ var app = new Vue({
                         parseFinished = true;
                         i = searchList.length;
                     }
-                    
+
                     switch (key) {
                         case "source":
                             app.options.showSource = string2bool(searchList.substr(j + 1, i - j - 1));
@@ -124,24 +124,24 @@ var app = new Vue({
                         case "sanitize":
                             app.options.shouldSanitize = string2bool(searchList.substr(j + 1, i - j - 1));
                             break;
-						case "control":
-						    app.options.showControl = string2bool(searchList.substr(j + 1, i - j - 1));
-							break;
-						case "credit":
-							app.options.showCredit = string2bool(searchList.substr(j + 1, i - j - 1));
+                        case "control":
+                            app.options.showControl = string2bool(searchList.substr(j + 1, i - j - 1));
+                            break;
+                        case "credit":
+                            app.options.showCredit = string2bool(searchList.substr(j + 1, i - j - 1));
                             break;
                         case "lang":
                             var langId = searchList.substr(j + 1, i - j - 1);
-                            var i = 0;
+                            var k = 0;
 
-                            for (; i < app.langs.length; i++) {
-                                if (app.langs[i].id === langId) {
-                                    app.langChoice = app.langs[i].displayName;
+                            for (; k < app.langs.length; k++) {
+                                if (app.langs[k].id === langId) {
+                                    app.langChoice = app.langs[k].displayName;
                                     break;
                                 }
                             }
 
-                            if (i === app.langs.length) {
+                            if (k === app.langs.length) {
                                 alert(app.i18n.langUnknown);
                             }
                             break;
@@ -168,7 +168,7 @@ var app = new Vue({
                     return;
                 }
             }
-            
+
             alert(app.i18n.langUnknown);
         },
         init: function () {
