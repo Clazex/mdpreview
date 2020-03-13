@@ -38,7 +38,7 @@
                 </select>
                 &emsp;
                 {{ i18n.highlightSupport }}
-                <select name="hlSupport" @change="loadHlSupport()" v-model="options.hlSupport">
+                <select name="hlSupport" @change="loadHlSupport(), compile()" v-model="options.hlSupport">
                     <option v-for="level in hlSupportLevels">{{ level }}</option>
                 </select>
             </p>
