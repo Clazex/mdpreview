@@ -251,6 +251,7 @@ table tr td:last-child {
     margin-bottom: 0;
 }
 
+p > code,
 tt {
     border: 1px solid #ddd;
     background-color: #f8f8f8;
