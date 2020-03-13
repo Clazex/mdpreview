@@ -99,8 +99,7 @@ var app = new Vue({
         },
         loadQuery: function () {
             if (window.location.search.length > 1) {
-                var searchList = window.location.search;
-                searchList[0] = "&";
+                var searchList = "&" + window.location.search.substr(1);
 
                 var i = 0, j;
                 for (var parseFinished = false; !parseFinished && i >= 0;) {
