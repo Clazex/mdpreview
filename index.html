@@ -5,15 +5,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/apple-touch-icon.png">
 
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/combine/npm/vue@2.6.11,npm/marked@0.8.0/marked.min.js,npm/superagent@5.2.2,npm/dompurify@2.0.8/dist/purify.min.js">
     </script>
-    <script type="text/javascript" id="hlScript"
-        src="./hl/normal.min.js">
+    <script type="text/javascript" id="hlScript" src="./hl/normal.min.js">
     </script>
 
     <link rel="stylesheet" type="text/css" id="hlStyle"
@@ -48,7 +50,6 @@
                 <button @click="loadMd()">{{ i18n.load }}</button>
             </p>
             <p>
-                <div>
                 <input type="checkbox" v-model="options.showSource" />
                 {{ i18n.source }}
                 &emsp;

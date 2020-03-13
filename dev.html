@@ -12,8 +12,7 @@
     <script type="text/javascript"
         src="https://cdn.jsdelivr.net/combine/npm/vue@2.6.11,npm/marked@0.8.0/marked.min.js,npm/superagent@5.2.2,npm/dompurify@2.0.8/dist/purify.min.js">
     </script>
-    <script type="text/javascript" id="hlScript"
-        src="./hl/normal.min.js">
+    <script type="text/javascript" id="hlScript" src="./hl/normal.min.js">
     </script>
 
     <link rel="stylesheet" type="text/css" id="hlStyle"
@@ -48,7 +47,6 @@
                 <button @click="loadMd()">{{ i18n.load }}</button>
             </p>
             <p>
-                <div>
                 <input type="checkbox" v-model="options.showSource" />
                 {{ i18n.source }}
                 &emsp;
