@@ -4,17 +4,21 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
 
     <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/combine/npm/vue@2.6.11,npm/marked@0.8.0/marked.min.js,npm/superagent@5.2.2,npm/dompurify@2.0.8/dist/purify.min.js,gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js">
+        src="https://cdn.jsdelivr.net/combine/npm/vue@2.6.11,npm/marked@0.8.0/marked.min.js,npm/superagent@5.2.2,npm/dompurify@2.0.8/dist/purify.min.js">
+    </script>
+    <script type="text/javascript" id="hlScript"
+        src="./hl/normal.min.js">
     </script>
 
-    <link rel="stylesheet" type="text/css"
+    <link rel="stylesheet" type="text/css" id="hlStyle"
         href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/github-gist.min.css">
-    <link rel="stylesheet" type="text/css" href="./style.min.css">
+    <link rel="stylesheet" type="text/css" href="./style.css">
     <link rel="stylesheet" type="text/css" href="./v-cloak.min.css">
 </head>
 
@@ -23,8 +27,19 @@
         <div id="control" v-if="options.showControl">
             <p>
                 {{ i18n.language }}
-                <select name="langs" @change="loadI18n()" v-model="langChoice">
+                <select name="langs" @change="loadI18n()" v-model="options.langChoice">
                     <option v-for="lang in langs">{{ lang.displayName }}</option>
+                </select>
+            </p>
+            <p>
+                {{ i18n.highlightStyle }}
+                <select name="hlStyles" @change="loadHlStyle()" v-model="options.hlStyle">
+                    <option v-for="style in hlStyles">{{ style }}</option>
+                </select>
+                &emsp;
+                {{ i18n.highlightSupport }}
+                <select name="hlSupport" @change="loadHlSupport()" v-model="options.hlSupport">
+                    <option v-for="level in hlSupportLevels">{{ level }}</option>
                 </select>
             </p>
             <p>
@@ -33,8 +48,10 @@
                 <button @click="loadMd()">{{ i18n.load }}</button>
             </p>
             <p>
+                <div>
                 <input type="checkbox" v-model="options.showSource" />
                 {{ i18n.source }}
+                &emsp;
                 <input type="checkbox" v-model="options.shouldSanitize" @click="compile()" />
                 {{ i18n.sanitize }}
             </p>
@@ -42,7 +59,7 @@
         </div>
         <div id="display" v-if="statusCode === 200">
             <div v-if="options.showSource && source.length > 0">
-                <div v-html='app.source.replace(/\n/g, "<br>")' id="source"></div>
+                <div v-html='app.source.replace(/\r\n|\n/g, "<br>")' id="source"></div>
                 <hr />
             </div>
             <div v-if="compiled.length > 0">

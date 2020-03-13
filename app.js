@@ -5,12 +5,14 @@ var app = new Vue({
         source: "",
         compiled: "",
         statusCode: 200,
-        langChoice: "English",
         options: {
             showSource: false,
             shouldSanitize: true,
             showControl: true,
-            showCredit: true
+            showCredit: true,
+            langChoice: "English",
+            hlStyle: "github-gist",
+            hlSupport: "1"
         },
         i18n: {},
         langs: [{
@@ -19,6 +21,8 @@ var app = new Vue({
                 content: {
                     title: "Markdown Preview",
                     language: "Language: ",
+                    highlightStyle: "Highlight Style: ",
+                    highlightSupport: "Highlight Support Level: ",
                     mdUrl: "Markdown File URL: ",
                     load: "Load",
                     source: "Show Source",
@@ -27,6 +31,8 @@ var app = new Vue({
                     connectionFailure: "Connection failed",
                     connectionError: "Error ",
                     langUnknown: "Unknown language!",
+                    styleUnknown: "Unknown style!",
+                    hlLevelUnknown: "Unknown highlight support level!",
                     queryParseError: "Error when parsing queries!",
                     queryUnknownKey: "Unknown query key: "
                 }
@@ -37,6 +43,8 @@ var app = new Vue({
                 content: {
                     title: "Markdown 预览",
                     language: "语言：",
+                    highlightStyle: "高亮样式：",
+                    highlightSupport: "高亮支持等级：",
                     mdUrl: "Markdown 文件 URL：",
                     load: "加载",
                     source: "显示源代码",
@@ -45,6 +53,8 @@ var app = new Vue({
                     connectionFailure: "连接失败",
                     connectionError: "错误 ",
                     langUnknown: "未知语言！",
+                    styleUnknown: "未知样式！",
+                    hlLevelUnknown: "未知高亮支持等级！",
                     queryParseError: "解析请求时出错！",
                     queryUnknownKey: "未知请求键值："
                 }
@@ -55,6 +65,8 @@ var app = new Vue({
                 content: {
                     title: "Markdown 預覽",
                     language: "語言：",
+                    highlightStyle: "高亮樣式：",
+                    highlightSupport: "高亮支持等級：",
                     mdUrl: "Markdown 檔案 URL：",
                     load: "加載",
                     source: "顯示源代碼",
@@ -63,10 +75,111 @@ var app = new Vue({
                     connectionFailure: "連接失敗",
                     connectionError: "錯誤 ",
                     langUnknown: "未知語言！",
+                    styleUnknown: "未知樣式！",
+                    hlLevelUnknown: "未知高亮支持等級！",
                     queryParseError: "解析請求時出錯！",
                     queryUnknownKey: "未知請求鍵值："
                 }
             }
+        ],
+        hlStyles: [
+            "a11y-dark",
+            "a11y-light",
+            "agate",
+            "an-old-hope",
+            "androidstudio",
+            "arduino-light",
+            "arta",
+            "ascetic",
+            "atelier-cave-dark",
+            "atelier-cave-light",
+            "atelier-dune-dark",
+            "atelier-dune-light",
+            "atelier-estuary-dark",
+            "atelier-estuary-light",
+            "atelier-forest-dark",
+            "atelier-forest-light",
+            "atelier-heath-dark",
+            "atelier-heath-light",
+            "atelier-lakeside-dark",
+            "atelier-lakeside-light",
+            "atelier-plateau-dark",
+            "atelier-plateau-light",
+            "atelier-savanna-dark",
+            "atelier-savanna-light",
+            "atelier-seaside-dark",
+            "atelier-seaside-light",
+            "atelier-sulphurpool-dark",
+            "atelier-sulphurpool-light",
+            "atom-one-dark-reasonable",
+            "atom-one-dark",
+            "atom-one-light",
+            "brown-paper",
+            "brown-papersq",
+            "codepen-embed",
+            "color-brewer",
+            "darcula",
+            "dark",
+            "darkula",
+            "default",
+            "docco",
+            "dracula",
+            "far",
+            "foundation",
+            "github-gist",
+            "github",
+            "gml",
+            "googlecode",
+            "gradient-dark",
+            "grayscale",
+            "gruvbox-dark",
+            "gruvbox-light",
+            "hopscotch",
+            "hybrid",
+            "idea",
+            "ir-black",
+            "isbl-editor-dark",
+            "isbl-editor-light",
+            "kimbie.dark",
+            "kimbie.light",
+            "lightfair",
+            "magula",
+            "mono-blue",
+            "monokai-sublime",
+            "monokai",
+            "night-owl",
+            "nord",
+            "obsidian",
+            "ocean",
+            "paraiso-dark",
+            "paraiso-light",
+            "pojoaque",
+            "purebasic",
+            "qtcreator_dark",
+            "qtcreator_light",
+            "railscasts",
+            "rainbow",
+            "routeros",
+            "school-book",
+            "shades-of-purple",
+            "solarized-dark",
+            "solarized-light",
+            "sunburst",
+            "tomorrow-night-blue",
+            "tomorrow-night-bright",
+            "tomorrow-night-eighties",
+            "tomorrow-night",
+            "tomorrow",
+            "vs",
+            "vs2015",
+            "xcode",
+            "xt256",
+            "zenburn"
+        ],
+        hlSupportLevels: [
+            "1",
+            "2",
+            "3"
         ]
     },
     methods: {
@@ -136,13 +249,33 @@ var app = new Vue({
 
                             for (; k < app.langs.length; k++) {
                                 if (app.langs[k].id === langId) {
-                                    app.langChoice = app.langs[k].displayName;
+                                    app.options.langChoice = app.langs[k].displayName;
                                     break;
                                 }
                             }
 
                             if (k === app.langs.length) {
                                 alert(app.i18n.langUnknown);
+                            }
+                            break;
+                        case "hlStyle":
+                            app.options.hlStyle = searchList.substr(j + 1, i - j - 1);
+                            break;
+                        case "hlLevel":
+                            var hlLevel = searchList.substr(j + 1, i - j - 1);
+                            switch (hlLevel) {
+                                case "1":
+                                    app.options.hlSupport = "1";
+                                    break;
+                                case "2":
+                                    app.options.hlSupport = "2";
+                                    break;
+                                case "3":
+                                    app.options.hlSupport = "3";
+                                    break;
+                                default:
+                                    alert(app.i18n.hlLevelUnknown);
+                                    break;
                             }
                             break;
                         case "url":
@@ -162,7 +295,7 @@ var app = new Vue({
         },
         loadI18n: function () {
             for (var i = 0; i < app.langs.length; i++) {
-                if (app.langs[i].displayName === app.langChoice) {
+                if (app.langs[i].displayName === app.options.langChoice) {
                     app.i18n = app.langs[i].content;
                     document.title = app.i18n.title;
                     return;
@@ -171,10 +304,39 @@ var app = new Vue({
 
             alert(app.i18n.langUnknown);
         },
+        loadHlStyle: function () {
+            for (var i = 0; i < app.hlStyles.length; i++) {
+                if (app.options.hlStyle === app.hlStyles[i]) {
+                    document.getElementById("hlStyle").href = "https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/" + app.options.hlStyle + ".min.css";
+                    return;
+                }
+            }
+            
+            alert(app.i18n.styleUnknown);
+            app.options.hlStyle = "github-gist";
+            app.loadHlStyle();
+        },
+        loadHlSupport: function () {
+            switch (app.options.hlSupport) {
+                case "1":
+                    document.getElementById("hlScript").href = "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/hl/normal.min.js";
+                    break;
+                case "2":
+                    document.getElementById("hlScript").href = "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/hl/more.min.js";
+                    break;
+                case "3":
+                    document.getElementById("hlScript").href = "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@master/hl/full.min.js";
+                    break;
+                default:
+                    alert(app.i18n.hlLevelUnknown);
+                    app.options.hlSupport = "1";
+                    app.loadHlSupport();
+                    break;
+            }
+        },
         init: function () {
             marked.setOptions({
                 highlight: function (code, language) {
-                    ;
                     const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
                     return hljs.highlight(validLanguage, code).value;
                 },
@@ -184,9 +346,14 @@ var app = new Vue({
             });
 
             app.loadI18n();
+
             app.urlInput = "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@latest/example.md";
+
             app.loadQuery();
+
             app.loadI18n();
+            app.loadHlStyle();
+            app.loadHlSupport();
         }
     }
 });
