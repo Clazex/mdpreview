@@ -173,6 +173,11 @@ var app = new Vue({
         },
         init: function () {
             marked.setOptions({
+                highlight: function (code, language) {
+                    ;
+                    const validLanguage = hljs.getLanguage(language) ? language : 'plaintext';
+                    return hljs.highlight(validLanguage, code).value;
+                },
                 gfm: true,
                 smartLists: true,
                 smartypants: false,
