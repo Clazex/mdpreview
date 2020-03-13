@@ -172,8 +172,14 @@ var app = new Vue({
             alert(app.i18n.langUnknown);
         },
         init: function () {
+            marked.setOptions({
+                gfm: true,
+                smartLists: true,
+                smartypants: false,
+            });
+
             app.loadI18n();
-			app.urlInput = "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@latest/example.md";
+            app.urlInput = "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@latest/example.md";
             app.loadQuery();
             app.loadI18n();
         }
