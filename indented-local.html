@@ -19,7 +19,7 @@
 
 <body onload="app.loadQuery()">
     <div id="app" v-cloak>
-        <div id="control">
+        <div id="control" v-if="options.showControl">
             <p>
                 Language: 
                 <select name="langs" @change="changeLang" v-model="langChoice">
@@ -32,24 +32,24 @@
                 <button @click="loadMd()">Load</button>
             </p>
             <p>
-                <input type="checkbox" v-model="showSource" />
+                <input type="checkbox" v-model="options.showSource" />
                 Show Source
-                <input type="checkbox" v-model="shouldSanitize" @click="compile()" />
+                <input type="checkbox" v-model="options.shouldSanitize" @click="compile()" />
                 Should Sanitize
             </p>
             <hr />
         </div>
         <div id="display" v-if="statusCode === 200">
-            <div v-if="showSource && source.length > 0">
+            <div v-if="options.showSource && source.length > 0">
                 <div v-html='app.source.replace(/\n/g, "<br>")' id="source"></div>
                 <hr />
             </div>
             <div v-if="compiled.length > 0">
                 <div v-html="compiled"></div>
-                <hr />
+                <hr v-if="options.showCredit" />
             </div>
         </div>
-        <div id='credit'>
+        <div id="credit" v-if="options.showCredit">
             Powered By:
             <a href="https://vuejs.org">Vue</a>
             <a href="https://marked.js.org">Marked</a>

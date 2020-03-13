@@ -4,6 +4,8 @@
 ## Query Syntax
 + `source`: `bool`, whether source code should be displayed
 + `sanitize`: `bool`, whether compiled markdown should be sanitized
++ `control`: `bool`, whether to display control area
++ `credit`: `bool`, whether to display credit area
 + `url`: `string`, markdown file to be loaded, this value should be a escaped URL and **MUST BE THE LAST KEY**
 
 Powered By:

@@ -4,9 +4,13 @@ var app = new Vue({
         urlInput: "https://cdn.jsdelivr.net/gh/Sciencmine/mdpreview@latest/example.md",
         source: "",
         compiled: "",
-        showSource: false,
-        shouldSanitize: true,
-        statusCode: 200,
+		options: {
+			showSource: false,
+			shouldSanitize: true,
+			showControl: true,
+			showCredit: true
+		},
+		statusCode: 200,
         langs: [
             {
                 displayName: "English",
@@ -41,7 +45,7 @@ var app = new Vue({
         },
         compile: function () {
             var markedProcessed = marked(app.source);
-            if (app.shouldSanitize) {
+            if (app.options.shouldSanitize) {
                 app.compiled = DOMPurify.sanitize(markedProcessed);
             } else {
                 app.compiled = markedProcessed;
@@ -70,6 +74,7 @@ var app = new Vue({
                     }
 
                     var key = searchList.substr(i + 1, j - i - 1);
+					console.log("key:" + key);
 
                     i = searchList.indexOf("&", j);
                     if (i === -1) {
@@ -79,13 +84,19 @@ var app = new Vue({
                     
                     switch (key) {
                         case "source":
-                            app.showSource = (searchList.substr(j + 1, i - j - 1) === "true");
+                            app.options.showSource = (searchList.substr(j + 1, i - j - 1) === "true");
                             break;
                         case "sanitize":
-                            app.shouldSanitize = (searchList.substr(j + 1, i - j - 1) === "true");
+                            app.options.shouldSanitize = (searchList.substr(j + 1, i - j - 1) === "true");
                             break;
+						case "control":
+						    app.options.showControl = (searchList.substr(j + 1, i - j - 1) === "true");
+							break;
+						case "credit":
+							app.options.showCredit = (searchList.substr(j + 1, i - j - 1) === "true");
+							break;
                         case "url":
-                            i = -2;
+                            i = "hasUrl";
                             break;
                         default:
                             alert("Unknown query key: " + key);
@@ -93,9 +104,9 @@ var app = new Vue({
                     }
                 }
 
-                if (i === -2) {
-                    this.urlInput = unescape(searchList.substr(j + 1));
-                    this.loadMd();
+                if (i === "hasUrl") {
+                    app.urlInput = unescape(searchList.substr(j + 1));
+                    app.loadMd();
                 }
             }
         }
