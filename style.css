@@ -251,7 +251,6 @@ table tr td:last-child {
     margin-bottom: 0;
 }
 
-code,
 tt {
     border: 1px solid #ddd;
     background-color: #f8f8f8;
@@ -262,7 +261,7 @@ tt {
     font-size: 0.9em;
 }
 
-#source {
+#source, pre {
     border: 1px solid #ddd;
     background-color: #f8f8f8;
     border-radius: 3px;
