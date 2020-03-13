@@ -173,9 +173,9 @@ var app = new Vue({
             alert(app.i18n.langUnknown);
         },
         init: function () {
-            for (i in app.langs) {
-                if (i.displayName === app.langChoice) {
-                    app.i18n = i.content;
+            for (var i = 0; i < app.langs.length; i++) {
+                if (app.langs[i].displayName === app.langChoice) {
+                    app.i18n = app.langs[i].content;
                     break;
                 }
             }
